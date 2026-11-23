@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="booting">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>人工智能发展历程 · 1950 — 2026</title>
+<style>
+/* =========================================================
+   AI 发展历程 · 科技编年史深色幻灯片
+   单文件 / 无外链 / 无第三方库 / 16:9 一屏一页
+   ========================================================= */
+
+:root{
+  --font-sans: "Segoe UI", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "SF Mono", Consolas, "Courier New", monospace;
+
+  --bg-deep:   #04060c;
+  --bg-panel:  rgba(255,255,255,.045);
+  --bg-panel2: rgba(255,255,255,.018);
+
+  --cyan:   #26d9f2;
+  --cyan-d: #0e93ad;
+  --violet: #9a7bff;
+  --amber:  #ffc861;
+  --rose:   #ff6b8b;
+
+  --text:   #e8f1fb;
+  --text-2: #b3c4da;
+  --text-3: #7b8ea8;
+  --text-4: #4d5f78;
+
+  --line:   rgba(120,190,255,.16);
+  --glow-c: 0 0 24px rgba(38,217,242,.55);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{
+  height:100%;width:100%;overflow:hidden;
+  background:var(--bg-deep);
+}
+
+body{
+  font-family:var(--font-sans);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* ---------- 舞台：固定 16:9，等比缩放适配任意屏幕 ---------- */
+#stage{
+  position:absolute;left:50%;top:50%;
+  width:1600px;height:900px;
+  transform-origin:50% 50%;
+  transform:translate(-50%,-50%) scale(1);
+  overflow:hidden;
+  background:
+    radial-gradient(1100px 720px at 78% -12%, rgba(38,217,242,.14), transparent 62%),
+    radial-gradient(900px 640px at 8% 108%, rgba(154,123,255,.15), transparent 62%),
+    radial-gradient(700px 500px at 50% 50%, rgba(12,24,44,.9), transparent 80%),
+    linear-gradient(168deg,#04060c 0%,#070c18 46%,#04070f 100%);
+}
+
+/* 细腻网格层 */
+#stage::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(120,190,255,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,190,255,.045) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(120% 100% at 50% 45%, #000 30%, transparent 88%);
+  -webkit-mask-image:radial-gradient(120% 100% at 50% 45%, #000 30%, transparent 88%);
+  opacity:.85;
+}
+
+/* 顶部/底部暗角 */
+#stage::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg, rgba(4,6,12,.75) 0%, transparent 16%, transparent 84%, rgba(4,6,12,.85) 100%);
+}
+
+#particles{position:absolute;inset:0;width:1600px;height:900px;opacity:.55}
+
+/* ---------- 幻灯片容器 ---------- */
+.slide{
+  position:absolute;inset:0;
+  padding:58px 84px 150px;
+  display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;
+  transform:translateX(var(--tx,0%));
+  transition:opacity .5s ease, transform .62s cubic-bezier(.22,.72,.2,1), visibility .62s;
+  z-index:2;
+}
+.slide.off-right{--tx:4.2%}
+.slide.off-left {--tx:-4.2%}
+.slide.active{
+  opacity:1;visibility:visible;--tx:0%;
+  z-index:3;
+}
+
+/* 首帧启动保护：避免加载瞬间出现滑动动画 */
+html.booting .slide{transition:none !important}
+html.booting .tl-fill{transition:none !important}
+
+/* ---------- 通用排版 ---------- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-mono);
+  font-size:13px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:14px;
+}
+.eyebrow::before{
+  content:"";width:26px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan));
+  box-shadow:var(--glow-c);
+}
+
+.s-title{
+  font-size:52px;line-height:1.14;font-weight:700;
+  letter-spacing:-.01em;
+  background:linear-gradient(96deg,#ffffff 8%,#cfe6ff 42%,#9fd8f5 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+}
+.s-title .hl{
+  background:linear-gradient(96deg,var(--cyan),var(--violet));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.s-head{margin-bottom:26px;flex:0 0 auto}
+
+.s-body{
+  flex:1 1 auto;display:grid;
+  grid-template-columns:minmax(0,1fr) 344px;
+  gap:52px;align-items:center;min-height:0;
+}
+.s-body.wide{grid-template-columns:minmax(0,1fr);align-content:center}
+
+.s-main{min-width:0}
+
+.lede{
+  font-size:19.5px;line-height:1.85;color:var(--text-2);
+  max-width:820px;
+}
+.lede strong{color:var(--text);font-weight:600}
+.lede .num{font-family:var(--font-mono);color:var(--cyan);font-weight:600}
+
+.lede + .lede{margin-top:16px}
+
+/* ---------- 卡片 ---------- */
+.cards{
+  display:grid;gap:14px;margin-top:26px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.cards.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cards.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cards.c1{grid-template-columns:1fr}
+
+.card{
+  position:relative;overflow:hidden;
+  padding:16px 18px 16px 20px;
+  border-radius:13px;
+  border:1px solid var(--line);
+  background:linear-gradient(158deg,var(--bg-panel),var(--bg-panel2));
+}
+.card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--cyan),rgba(154,123,255,0));
+  box-shadow:0 0 14px rgba(38,217,242,.7);
+}
+.card .k{
+  display:block;font-family:var(--font-mono);font-size:11.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--text-4);
+  margin-bottom:7px;
+}
+.card .v{
+  font-size:16.5px;line-height:1.5;color:var(--text);font-weight:600;
+}
+.card .v small{
+  display:block;font-size:13px;font-weight:400;
+  color:var(--text-3);margin-top:5px;line-height:1.6;
+}
+.card.v2::before{background:linear-gradient(180deg,var(--violet),rgba(154,123,255,0))}
+.card.warm::before{background:linear-gradient(180deg,var(--amber),rgba(255,200,97,0))}
+
+/* ---------- 右侧年份勋章 ---------- */
+.s-aside{
+  display:flex;flex-direction:column;align-items:center;gap:22px;
+}
+.medal{
+  position:relative;
+  width:300px;height:300px;border-radius:50%;
+  display:grid;place-content:center;text-align:center;
+  background:radial-gradient(circle at 50% 48%, rgba(38,217,242,.14), rgba(38,217,242,.02) 58%, transparent 72%);
+  border:1px solid rgba(38,217,242,.26);
+  box-shadow:
+    0 0 70px rgba(38,217,242,.16),
+    inset 0 0 80px rgba(38,217,242,.07);
+}
+.medal::before{
+  content:"";position:absolute;inset:-16px;border-radius:50%;
+  border:1px dashed rgba(38,217,242,.28);
+  animation:spin 26s linear infinite;
+}
+.medal::after{
+  content:"";position:absolute;inset:16px;border-radius:50%;
+  border:1px solid rgba(154,123,255,.2);
+  animation:spin 40s linear infinite reverse;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.medal .yr{
+  font-family:var(--font-mono);
+  font-size:66px;font-weight:700;letter-spacing:-.02em;
+  color:#fff;line-height:1;
+  text-shadow:0 0 30px rgba(38,217,242,.75), 0 0 70px rgba(38,217,242,.35);
+}
+.medal .yr.sm{font-size:46px}
+.medal .yl{
+  margin-top:12px;
+  font-family:var(--font-mono);font-size:12px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);
+  text-shadow:0 0 14px rgba(38,217,242,.6);
+}
+
+.aside-note{
+  width:300px;
+  padding:15px 17px;
+  border-radius:12px;
+  border:1px solid rgba(255,200,97,.22);
+  background:linear-gradient(160deg, rgba(255,200,97,.08), rgba(255,200,97,.015));
+  font-size:13.5px;line-height:1.72;color:#e5d5b4;
+}
+.aside-note .tag{
+  display:block;font-family:var(--font-mono);font-size:11px;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--amber);
+  margin-bottom:7px;
+}
+
+/* ---------- 引言块 ---------- */
+.quote{
+  margin-top:24px;padding:18px 24px;
+  border-left:2px solid var(--cyan);
+  background:linear-gradient(90deg, rgba(38,217,242,.09), transparent 78%);
+  border-radius:0 12px 12px 0;
+}
+.quote p{
+  font-size:17px;line-height:1.7;color:#dbe9f8;font-style:italic;
+}
+.quote span{
+  display:block;margin-top:9px;font-style:normal;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--cyan);
+}
+
+/* =========================================================
+   封面
+   ========================================================= */
+.cover{
+  padding:0;align-items:center;justify-content:center;text-align:center;
+}
+.cover-inner{
+  position:relative;z-index:5;padding:0 120px;
+  display:flex;flex-direction:column;align-items:center;
+}
+.cover-eyebrow{
+  font-family:var(--font-mono);font-size:14px;letter-spacing:.5em;
+  text-transform:uppercase;color:var(--cyan);
+  text-shadow:0 0 18px rgba(38,217,242,.55);
+  margin-bottom:30px;
+}
+.cover-title{
+  font-size:112px;font-weight:800;line-height:1.02;letter-spacing:.02em;
+  background:linear-gradient(100deg,#ffffff 0%,#a8e9ff 34%,#7fd0f0 52%,#a98cff 88%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 0 46px rgba(38,217,242,.35));
+}
+.cover-rule{
+  width:520px;height:1px;margin:38px 0 30px;
+  background:linear-gradient(90deg,transparent,rgba(38,217,242,.85),rgba(154,123,255,.85),transparent);
+  box-shadow:0 0 20px rgba(38,217,242,.5);
+}
+.cover-sub{
+  font-size:23px;color:var(--text-2);letter-spacing:.06em;line-height:1.7;
+}
+.cover-sub b{color:#fff;font-weight:600}
+.cover-en{
+  margin-top:16px;font-family:var(--font-mono);font-size:13px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--text-4);
+}
+.cover-span{
+  margin-top:46px;display:flex;align-items:center;gap:18px;
+  font-family:var(--font-mono);font-size:13px;color:var(--text-3);
+  letter-spacing:.16em;
+}
+.cover-span .d{
+  width:7px;height:7px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 14px var(--cyan);
+}
+.cover-span .d.v{background:var(--violet);box-shadow:0 0 14px var(--violet)}
+.cover-span .d.a{background:var(--amber);box-shadow:0 0 14px var(--amber)}
+
+.keys{
+  margin-top:52px;display:flex;gap:14px;align-items:center;
+  font-size:13px;color:var(--text-4);font-family:var(--font-mono);letter-spacing:.1em;
+}
+.kbd{
+  display:inline-grid;place-content:center;
+  min-width:32px;height:30px;padding:0 9px;
+  border-radius:7px;border:1px solid rgba(120,190,255,.3);
+  background:rgba(255,255,255,.05);
+  color:var(--text-2);font-size:14px;
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset;
+}
+
+/* 封面装饰环 */
+.cover-ring{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  border-radius:50%;pointer-events:none;
+}
+.cover-ring.r1{
+  width:880px;height:880px;border:1px solid rgba(38,217,242,.13);
+}
+.cover-ring.r2{
+  width:1140px;height:1140px;border:1px dashed rgba(154,123,255,.13);
+  animation:spin 70s linear infinite;
+}
+.cover-ring.r3{
+  width:640px;height:640px;
+  background:radial-gradient(circle, rgba(38,217,242,.09), transparent 68%);
+}
+
+/* =========================================================
+   时间轴（底部）
+   ========================================================= */
+#timeline{
+  position:absolute;left:84px;right:84px;bottom:52px;height:66px;z-index:20;
+  transition:opacity .45s ease;
+}
+#timeline.dim{opacity:.14}
+
+.tl-line{
+  position:absolute;left:0;right:0;top:9px;height:1px;
+  background:linear-gradient(90deg, rgba(120,190,255,.06), rgba(120,190,255,.24) 12%, rgba(120,190,255,.24) 88%, rgba(120,190,255,.06));
+}
+.tl-fill{
+  position:absolute;left:0;top:8px;height:3px;width:0;
+  border-radius:2px;
+  background:linear-gradient(90deg, rgba(38,217,242,.25), var(--cyan) 70%, var(--violet));
+  box-shadow:0 0 16px rgba(38,217,242,.85);
+  transition:width .6s cubic-bezier(.22,.72,.2,1);
+}
+.tl-nodes{position:absolute;left:0;right:0;top:0;height:66px;display:flex;justify-content:space-between;align-items:flex-start}
+.tl-node{
+  flex:0 0 12px;display:grid;justify-items:center;
+  position:relative;height:66px;
+}
+.tl-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:#1d2c42;border:1px solid rgba(120,190,255,.36);
+  transition:all .4s cubic-bezier(.22,.72,.2,1);
+  position:relative;z-index:2;
+}
+.tl-node .lab{
+  position:absolute;top:22px;white-space:nowrap;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;
+  color:var(--text-4);
+  transition:all .4s ease;
+}
+.tl-node.past .tl-dot{
+  background:rgba(38,217,242,.55);
+  border-color:rgba(38,217,242,.7);
+  box-shadow:0 0 10px rgba(38,217,242,.55);
+}
+.tl-node.past .lab{color:var(--text-3)}
+.tl-node.on .tl-dot{
+  width:15px;height:15px;margin-top:-3px;
+  background:#fff;border-color:#fff;
+  box-shadow:0 0 0 5px rgba(38,217,242,.2), 0 0 26px 4px rgba(38,217,242,.9);
+}
+.tl-node.on .lab{
+  color:#fff;font-weight:600;
+  text-shadow:0 0 14px rgba(38,217,242,.85);
+  top:26px;font-size:12.5px;
+}
+
+/* =========================================================
+   HUD：页码 / 箭头
+   ========================================================= */
+#counter{
+  position:absolute;right:84px;top:52px;z-index:20;
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;
+  color:var(--text-4);
+}
+#counter b{color:var(--cyan);font-weight:600;font-size:16px;text-shadow:0 0 14px rgba(38,217,242,.6)}
+#counter .sep{margin:0 5px;color:var(--text-4)}
+
+#nav{
+  position:absolute;right:28px;bottom:140px;z-index:22;
+  display:flex;flex-direction:column;gap:10px;
+  transition:opacity .35s ease;
+}
+.nav-btn{
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-content:center;cursor:pointer;
+  border:1px solid rgba(120,190,255,.24);
+  background:rgba(255,255,255,.045);
+  color:var(--text-2);
+  transition:all .25s ease;
+  user-select:none;
+}
+.nav-btn:hover{
+  border-color:rgba(38,217,242,.7);
+  background:rgba(38,217,242,.14);
+  color:#fff;
+  box-shadow:0 0 22px rgba(38,217,242,.45);
+}
+.nav-btn:active{transform:scale(.93)}
+.nav-btn svg{width:17px;height:17px;display:block}
+
+#brandbar{
+  position:absolute;left:84px;top:52px;z-index:20;
+  display:flex;align-items:center;gap:11px;
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text-4);
+}
+#brandbar .pulse{
+  width:7px;height:7px;border-radius:50%;background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan);
+  animation:pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.72)}}
+
+/* =========================================================
+   结尾页专属
+   ========================================================= */
+.end-wrap{
+  flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;gap:0;min-height:0;
+}
+.end-title{
+  font-size:50px;font-weight:700;line-height:1.2;
+  background:linear-gradient(96deg,#ffffff 10%,#a8e9ff 55%,#a98cff 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 0 34px rgba(38,217,242,.3));
+}
+.end-sub{margin-top:16px;font-size:17px;color:var(--text-3);letter-spacing:.05em}
+
+.chips{
+  margin-top:44px;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:11px 12px;max-width:1240px;
+}
+.chip{
+  display:flex;align-items:baseline;gap:9px;
+  padding:10px 17px;border-radius:999px;
+  border:1px solid var(--line);
+  background:linear-gradient(160deg, rgba(255,255,255,.055), rgba(255,255,255,.012));
+  transition:all .3s ease;
+}
+.chip .cy{
+  font-family:var(--font-mono);font-size:13.5px;font-weight:700;
+  color:var(--cyan);text-shadow:0 0 12px rgba(38,217,242,.5);
+}
+.chip .cl{font-size:13.5px;color:var(--text-2)}
+.chip.accent{border-color:rgba(154,123,255,.4);background:linear-gradient(160deg, rgba(154,123,255,.13), rgba(154,123,255,.02))}
+.chip.accent .cy{color:#c3aeff;text-shadow:0 0 12px rgba(154,123,255,.6)}
+
+.end-rule{
+  width:440px;height:1px;margin:42px 0 26px;
+  background:linear-gradient(90deg,transparent,rgba(38,217,242,.8),transparent);
+  box-shadow:0 0 18px rgba(38,217,242,.45);
+}
+.end-quote{
+  font-size:24px;line-height:1.7;color:#e3eefb;font-weight:300;
+  letter-spacing:.03em;max-width:1000px;
+}
+.end-quote b{
+  font-weight:700;
+  background:linear-gradient(96deg,var(--cyan),var(--violet));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.end-foot{
+  margin-top:34px;font-family:var(--font-mono);font-size:12px;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--text-4);
+}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <canvas id="particles" width="1600" height="900"></canvas>
+
+  <!-- ==================== 01 封面 ==================== -->
+  <section class="slide cover active" data-tl="none">
+    <div class="cover-ring r3"></div>
+    <div class="cover-ring r1"></div>
+    <div class="cover-ring r2"></div>
+    <div class="cover-inner">
+      <div class="cover-eyebrow">1950 &nbsp;—&nbsp; 2026</div>
+      <h1 class="cover-title">人工智能发展历程</h1>
+      <div class="cover-rule"></div>
+      <p class="cover-sub">从<b>图灵之问</b>，到<b>智能体时代</b></p>
+      <p class="cover-en">From the Turing Test to the Age of Agents</p>
+      <div class="cover-span">
+        <span class="d"></span><span>符号主义</span>
+        <span class="d v"></span><span>连接主义</span>
+        <span class="d a"></span><span>大模型时代</span>
+      </div>
+      <div class="keys">
+        <span class="kbd">←</span><span class="kbd">→</span>
+        <span style="margin-left:6px">翻页</span>
+        <span class="kbd" style="margin-left:16px">空格</span>
+        <span>下一页</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 02 1950 图灵测试 ==================== -->
+  <section class="slide" data-tl="1950">
+    <header class="s-head">
+      <div class="eyebrow">起点 · 提出那个问题</div>
+      <h2 class="s-title">机器<span class="hl">能思考吗</span>？</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          英国数学家<strong>艾伦·图灵</strong>在《Mind》期刊发表论文《Computing Machinery and Intelligence》。
+          他绕开了"思考"难以定义的问题，转而提出一个可操作的标准——<strong>模仿游戏</strong>，即后来广为人知的<strong>图灵测试</strong>：
+          如果人类审问者在文字对话中无法可靠区分机器与人，我们便没有理由否认机器"会思考"。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">Year</span><span class="v">1950</span></div>
+          <div class="card v2"><span class="k">Author</span><span class="v">Alan Turing</span></div>
+          <div class="card"><span class="k">Journal</span><span class="v">Mind</span></div>
+          <div class="card warm"><span class="k">Core</span><span class="v">以行为判智能</span></div>
+        </div>
+        <div class="quote">
+          <p>"Can machines think?"</p>
+          <span>— A. M. Turing, Computing Machinery and Intelligence, 1950</span>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr">1950</div>
+          <div class="yl">Turing Test</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">意义</span>
+          图灵把"机器能否思考"从一个哲学问题，转化为一个可被实验检验的工程问题——这成为此后七十余年 AI 研究的元问题。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 03 1956 达特茅斯会议 ==================== -->
+  <section class="slide" data-tl="1956">
+    <header class="s-head">
+      <div class="eyebrow">命名 · 学科诞生</div>
+      <h2 class="s-title">达特茅斯会议</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">1956</span> 年夏天，<strong>约翰·麦卡锡</strong>、<strong>马文·明斯基</strong>、<strong>纳撒尼尔·罗切斯特</strong>与<strong>克劳德·香农</strong>等学者
+          在达特茅斯学院组织了一场为期约两个月的研讨会。正是在这次会议上，<strong>"Artificial Intelligence"（人工智能）</strong>一词被正式确立，
+          AI 由此从控制论与逻辑学的交叉地带中独立出来，成为一个真正的学科。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">Time</span><span class="v">1956 年夏</span></div>
+          <div class="card v2"><span class="k">Place</span><span class="v">达特茅斯学院</span></div>
+          <div class="card"><span class="k">People</span><span class="v">麦卡锡 · 明斯基<br>罗切斯特 · 香农</span></div>
+          <div class="card warm"><span class="k">Legacy</span><span class="v">AI 成为独立学科</span></div>
+        </div>
+        <div class="quote">
+          <p>"我们将尝试找到如何让机器使用语言、形成抽象与概念、解决目前只有人类才能解决的问题，并改进自身。"</p>
+          <span>— 1955 年达特茅斯会议提案</span>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr">1956</div>
+          <div class="yl">Dartmouth</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">乐观的起点</span>
+          提案中曾预估"十人两个月"便能有实质突破。这份过于乐观的预期，也为后来的第一次 AI 寒冬埋下了伏笔。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 04 1957/1958 感知机 ==================== -->
+  <section class="slide" data-tl="1957">
+    <header class="s-head">
+      <div class="eyebrow">连接主义 · 第一次学习</div>
+      <h2 class="s-title">感知机 <span class="hl">Perceptron</span></h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">1957</span> 年，<strong>弗兰克·罗森布拉特</strong>在康奈尔航空实验室提出感知机模型；
+          <span class="num">1958</span> 年发表论文并建造了硬件实现 <strong>Mark I Perceptron</strong>。
+          这是第一个能够从数据中自行"学习"权重的神经网络模型，也是今天深度学习中"神经元"的最早雏形。
+        </p>
+        <p class="lede">
+          <span class="num">1969</span> 年，明斯基与派珀特在《Perceptrons》一书中证明：单层感知机无法解决 XOR 这类非线性可分问题。
+          研究热情随之骤降，这成为第一次 AI 寒冬的重要伏笔。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">1957</span><span class="v">感知机提出</span></div>
+          <div class="card v2"><span class="k">1958</span><span class="v">论文发表</span></div>
+          <div class="card"><span class="k">1958</span><span class="v">Mark I 硬件</span></div>
+          <div class="card warm"><span class="k">1969</span><span class="v">单层局限被证明</span></div>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr sm">1957<span style="font-size:30px;opacity:.5">/58</span></div>
+          <div class="yl">Perceptron</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">未竟的先声</span>
+          感知机的思想在三十年后以"多层神经网络 + 反向传播"的形式复活，成为深度学习的直接源头。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 05 专家系统与 AI 寒冬 ==================== -->
+  <section class="slide" data-tl="1970s">
+    <header class="s-head">
+      <div class="eyebrow">起落 · 两次寒冬</div>
+      <h2 class="s-title">专家系统与 <span class="hl">AI 寒冬</span></h2>
+    </header>
+    <div class="s-body wide">
+      <div class="s-main">
+        <p class="lede">
+          当连接主义受挫，符号主义接棒。把人类专家的经验写成<strong>"知识库 + 推理机"</strong>的专家系统开始崭露头角：
+          <span class="num">1965</span> 年的 DENDRAL 用于化学结构分析，<span class="num">1972</span> 年的 MYCIN 用于医学诊断。
+          <span class="num">1980</span> 年代 DEC 公司的 XCON 系统实现商业成功，日本也于 <span class="num">1982</span> 年高调启动"第五代计算机"计划。
+        </p>
+        <div class="cards c2">
+          <div class="card">
+            <span class="k">第一次 AI 寒冬 · 1974 — 1980</span>
+            <span class="v">1973 年《莱特希尔报告》质疑 AI 的实际进展
+              <small>随后英国与美国先后大幅削减 AI 研究经费，机器翻译等项目被终止。</small>
+            </span>
+          </div>
+          <div class="card v2">
+            <span class="k">第二次 AI 寒冬 · 1987 — 1993</span>
+            <span class="v">LISP 专用机市场崩溃，专家系统难以为继
+              <small>知识难以手工编码、无法泛化、维护成本高昂，商业神话迅速破灭。</small>
+            </span>
+          </div>
+        </div>
+        <div class="quote" style="border-color:var(--rose)">
+          <p>两次寒冬的根本瓶颈其实相同：<strong style="color:#fff">算力不足、数据稀缺、知识难以人工编码</strong>。</p>
+          <span style="color:var(--rose)">— 这也解释了为什么它们的解法要等到三十年之后</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 06 1997 深蓝 ==================== -->
+  <section class="slide" data-tl="1997">
+    <header class="s-head">
+      <div class="eyebrow">人机对弈 · 里程碑</div>
+      <h2 class="s-title">深蓝战胜世界冠军</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">1997</span> 年 5 月 11 日，IBM 的"<strong>深蓝</strong>"（Deep Blue）以 <span class="num">3.5 : 2.5</span> 的总比分
+          战胜国际象棋世界冠军<strong>加里·卡斯帕罗夫</strong>，成为首个在标准赛制下击败在位世界冠军的计算机系统。
+          深蓝每秒可评估约 <span class="num">2 亿</span> 个棋位，并将大量人类大师棋谱编码进评估函数。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">1996</span><span class="v">首战失利<small>卡斯帕罗夫 4 : 2 取胜</small></span></div>
+          <div class="card v2"><span class="k">1997</span><span class="v">再战取胜<small>深蓝 3.5 : 2.5 获胜</small></span></div>
+          <div class="card"><span class="k">算力</span><span class="v">约 2 亿棋位/秒</span></div>
+          <div class="card warm"><span class="k">本质</span><span class="v">专用搜索 + 人类知识<small>并非通用智能</small></span></div>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr">1997</div>
+          <div class="yl">Deep Blue</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">一次惊醒</span>
+          深蓝证明了"暴力搜索 + 领域知识"可以征服规则明确的棋类，但也暴露了它的天花板：换一个领域，一切归零。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 07 2012 AlexNet ==================== -->
+  <section class="slide" data-tl="2012">
+    <header class="s-head">
+      <div class="eyebrow">引爆点 · 深度学习复兴</div>
+      <h2 class="s-title">AlexNet 与 ImageNet</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">2012</span> 年，<strong>Alex Krizhevsky</strong>、<strong>Ilya Sutskever</strong> 与 <strong>Geoffrey Hinton</strong>
+          提交的 <strong>AlexNet</strong> 在 ImageNet 大规模视觉识别竞赛（ILSVRC）中夺冠：
+          Top-5 错误率降至 <span class="num">15.3%</span>，而第二名约为 <span class="num">26.2%</span>——差距之大，震动了整个计算机视觉界。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">结构</span><span class="v">8 层卷积网络</span></div>
+          <div class="card v2"><span class="k">硬件</span><span class="v">2 × GTX 580 GPU</span></div>
+          <div class="card"><span class="k">技巧</span><span class="v">ReLU · Dropout</span></div>
+          <div class="card warm"><span class="k">数据</span><span class="v">约 120 万张图像</span></div>
+        </div>
+        <div class="quote">
+          <p>GPU 算力 + 海量数据 + 深层网络，三者在同一年交汇。</p>
+          <span>— 深度学习复兴的信号弹</span>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr">2012</div>
+          <div class="yl">AlexNet</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">范式切换</span>
+          从此"手工设计特征"退场，"端到端学习表征"登场。此后十年，AI 的几乎每一次跃迁都沿着这条路展开。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 08 2016 AlphaGo ==================== -->
+  <section class="slide" data-tl="2016">
+    <header class="s-head">
+      <div class="eyebrow">直觉与搜索 · 攻克围棋</div>
+      <h2 class="s-title">AlphaGo 击败李世石</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">2016</span> 年 3 月，DeepMind 的 <strong>AlphaGo</strong> 以 <span class="num">4 : 1</span> 战胜围棋世界冠军<strong>李世石</strong>。
+          围棋的状态空间远超国际象棋，长期被视作 AI 难以逾越的壁垒。AlphaGo 将<strong>深度神经网络</strong>、
+          <strong>蒙特卡洛树搜索</strong>与<strong>强化学习</strong>结合：先用人类棋谱监督学习，再通过自我对弈持续强化。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">2015.10</span><span class="v">5 : 0 胜樊麾<small>首次战胜职业棋手</small></span></div>
+          <div class="card v2"><span class="k">2016.03</span><span class="v">4 : 1 胜李世石</span></div>
+          <div class="card"><span class="k">名局</span><span class="v">第二局"第 37 手"</span></div>
+          <div class="card warm"><span class="k">2017</span><span class="v">AlphaGo Zero<small>从零自对弈，无需人类棋谱</small></span></div>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr">2016</div>
+          <div class="yl">AlphaGo</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">从"算"到"感"</span>
+          围棋不再是人类独有的疆域。更关键的是，AlphaGo Zero 证明了：只要有清晰目标，机器可以完全靠自己超越人类经验。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 09 2017 Transformer ==================== -->
+  <section class="slide" data-tl="2017">
+    <header class="s-head">
+      <div class="eyebrow">架构革命 · 一切的底座</div>
+      <h2 class="s-title">Transformer 诞生</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">2017</span> 年 6 月，Vaswani 等八位 Google 研究者发表论文《Attention Is All You Need》，
+          提出完全基于<strong>自注意力机制（Self-Attention）</strong>的 Transformer 架构。
+          它抛弃了循环与卷积结构，使<strong>大规模并行训练</strong>成为可能，同时显著增强了长程依赖的建模能力。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">机制</span><span class="v">自注意力</span></div>
+          <div class="card v2"><span class="k">优势</span><span class="v">可并行训练</span></div>
+          <div class="card"><span class="k">能力</span><span class="v">长程依赖建模</span></div>
+          <div class="card warm"><span class="k">后续</span><span class="v">BERT · GPT 的共同底座</span></div>
+        </div>
+        <div class="quote">
+          <p>今天几乎所有主流大模型，都建立在这篇论文之上。</p>
+          <span>— Attention Is All You Need, 2017</span>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr">2017</div>
+          <div class="yl">Transformer</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">真正的分水岭</span>
+          如果说 AlexNet 让神经网络重新被信任，Transformer 则让神经网络真正可以"变大"——大到足以改变一切。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 10 GPT 预训练与 GPT-3 ==================== -->
+  <section class="slide" data-tl="2020">
+    <header class="s-head">
+      <div class="eyebrow">规模即能力 · 预训练时代</div>
+      <h2 class="s-title">GPT 与 <span class="hl">GPT-3</span> 的缩放定律</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">2018</span> 年 GPT-1（约 <span class="num">1.17 亿</span>参数）验证了"无监督预训练 + 下游微调"的路线；
+          <span class="num">2019</span> 年 GPT-2 扩展到 <span class="num">15 亿</span>参数；
+          <span class="num">2020</span> 年 GPT-3 以 <span class="num">1750 亿</span>参数震惊业界，论文《Language Models are Few-Shot Learners》证明：
+          模型足够大时，<strong>无需微调，仅靠提示（Prompt）即可完成全新任务</strong>。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">2018 · GPT-1</span><span class="v">1.17 亿参数</span></div>
+          <div class="card v2"><span class="k">2019 · GPT-2</span><span class="v">15 亿参数</span></div>
+          <div class="card"><span class="k">2020 · GPT-3</span><span class="v">1750 亿参数</span></div>
+          <div class="card warm"><span class="k">范式</span><span class="v">预训练 + 提示</span></div>
+        </div>
+        <div class="quote">
+          <p>参数、数据与算力同步扩张，能力开始在某个临界点之后"涌现"。</p>
+          <span>— Scaling Law 的经验性胜利</span>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr sm">2020</div>
+          <div class="yl">GPT-3 · 175B</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">少样本学习</span>
+          从那以后，AI 的竞争焦点从"模型结构设计"转向"规模 + 数据 + 对齐"，一条全新的工业曲线被开启。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 11 2022 ChatGPT ==================== -->
+  <section class="slide" data-tl="2022">
+    <header class="s-head">
+      <div class="eyebrow">走向大众 · ChatGPT 时刻</div>
+      <h2 class="s-title">对话，让 AI 走进日常</h2>
+    </header>
+    <div class="s-body">
+      <div class="s-main">
+        <p class="lede">
+          <span class="num">2022</span> 年 11 月 30 日，OpenAI 发布 <strong>ChatGPT</strong>。它基于 GPT-3.5，
+          并引入 <strong>RLHF（基于人类反馈的强化学习）</strong>进行对齐训练，让模型第一次能以自然、流畅的对话方式服务普通人。
+          上线两个月用户突破 <span class="num">1 亿</span>，成为史上增长最快的消费级应用之一。
+        </p>
+        <div class="cards c4">
+          <div class="card"><span class="k">发布日期</span><span class="v">2022.11.30</span></div>
+          <div class="card v2"><span class="k">底座模型</span><span class="v">GPT-3.5</span></div>
+          <div class="card"><span class="k">关键方法</span><span class="v">RLHF 对齐</span></div>
+          <div class="card warm"><span class="k">影响</span><span class="v">AI 走进日常生活</span></div>
+        </div>
+        <div class="quote">
+          <p>"对话"这个最古老的交互形式，成了 AI 最有效的接口。</p>
+          <span>— 大模型从此成为基础设施</span>
+        </div>
+      </div>
+      <aside class="s-aside">
+        <div class="medal">
+          <div class="yr">2022</div>
+          <div class="yl">ChatGPT</div>
+        </div>
+        <div class="aside-note">
+          <span class="tag">真正的普及</span>
+          技术的分水岭不只在能力，更在于门槛。ChatGPT 把需要写代码才能调用的能力，交到了每一个会打字的人手里。
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================== 12 当下 ==================== -->
+  <section class="slide" data-tl="NOW">
+    <header class="s-head">
+      <div class="eyebrow">当下 · 2023 至今</div>
+      <h2 class="s-title">智能体、多模态与<span class="hl">端侧 AI</span></h2>
+    </header>
+    <div class="s-body wide">
+      <div class="s-main">
+        <p class="lede">
+          大模型已经成为通用底座。AI 正在从"能对话"走向"能看、能听、能动手"，也从云端走向每个人的设备。
+        </p>
+        <div class="cards c2">
+          <div class="card">
+            <span class="k">多模态 · Multimodal</span>
+            <span class="v">文本、图像、语音、视频统一建模
+              <small>自 2023 年 GPT-4 起，模型开始真正"看懂"并生成多种形态的内容，理解世界的方式不再局限于文字。</small>
+            </span>
+          </div>
+          <div class="card v2">
+            <span class="k">智能体 · Agent</span>
+            <span class="v">从"对话"走向"行动"
+              <small>工具调用、任务规划、自主执行与自我反思，模型开始端到端地完成一件真实的工作，而不只是回答问题。</small>
+            </span>
+          </div>
+          <div class="card warm">
+            <span class="k">端侧 AI · On-Device</span>
+            <span class="v">小模型进入手机与 PC
+              <small>通过量化、蒸馏与专用芯片，本地推理在低延迟、离线可用与隐私保护上具备不可替代的优势。</small>
+            </span>
+          </div>
+          <div class="card">
+            <span class="k">推理模型 · Reasoning</span>
+            <span class="v">先思考，再回答
+              <small>用强化学习训练长链条推理，让模型在复杂数学、代码与科学问题上投入更多"思考时间"。</small>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 13 结尾 ==================== -->
+  <section class="slide" data-tl="none">
+    <div class="end-wrap">
+      <h2 class="end-title">七十余年，一条没有终点的曲线</h2>
+      <p class="end-sub">1950 → 2026 · 从模仿游戏到智能体</p>
+
+      <div class="chips">
+        <div class="chip"><span class="cy">1950</span><span class="cl">图灵测试</span></div>
+        <div class="chip"><span class="cy">1956</span><span class="cl">达特茅斯会议</span></div>
+        <div class="chip"><span class="cy">1957</span><span class="cl">感知机</span></div>
+        <div class="chip"><span class="cy">1970s</span><span class="cl">专家系统</span></div>
+        <div class="chip"><span class="cy">1974</span><span class="cl">第一次寒冬</span></div>
+        <div class="chip"><span class="cy">1987</span><span class="cl">第二次寒冬</span></div>
+        <div class="chip"><span class="cy">1997</span><span class="cl">深蓝</span></div>
+        <div class="chip"><span class="cy">2012</span><span class="cl">AlexNet</span></div>
+        <div class="chip"><span class="cy">2016</span><span class="cl">AlphaGo</span></div>
+        <div class="chip"><span class="cy">2017</span><span class="cl">Transformer</span></div>
+        <div class="chip"><span class="cy">2020</span><span class="cl">GPT-3</span></div>
+        <div class="chip"><span class="cy">2022</span><span class="cl">ChatGPT</span></div>
+        <div class="chip accent"><span class="cy">2023 →</span><span class="cl">Agent · 多模态 · 端侧</span></div>
+      </div>
+
+      <div class="end-rule"></div>
+      <p class="end-quote">每一次寒冬，都在为下一个春天<b>积蓄算力与思想</b>。</p>
+      <p class="end-foot">人工智能发展历程 · 1950 — 2026</p>
+    </div>
+  </section>
+
+  <!-- ==================== 底部时间轴 ==================== -->
+  <div id="timeline" class="dim">
+    <div class="tl-line"></div>
+    <div class="tl-fill" id="tlFill"></div>
+    <div class="tl-nodes" id="tlNodes"></div>
+  </div>
+
+  <!-- ==================== HUD ==================== -->
+  <div id="brandbar"><span class="pulse"></span><span>AI Chronicle</span></div>
+  <div id="counter"><b id="curNum">01</b><span class="sep">/</span><span id="totNum">13</span></div>
+
+  <div id="nav">
+    <div class="nav-btn" id="btnPrev" title="上一页">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </div>
+    <div class="nav-btn" id="btnNext" title="下一页">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     1. 舞台等比缩放（严格保持 16:9 = 1600 × 900）
+     ========================================================= */
+  var stage = document.getElementById('stage');
+  var BASE_W = 1600, BASE_H = 900;
+
+  function fit(){
+    var s = Math.min(window.innerWidth / BASE_W, window.innerHeight / BASE_H);
+    stage.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('orientationchange', fit);
+  fit();
+
+  /* =========================================================
+     2. 底部时间轴构建
+     ========================================================= */
+  var slides  = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var tlNodes = document.getElementById('tlNodes');
+  var tlFill  = document.getElementById('tlFill');
+  var timeline= document.getElementById('timeline');
+
+  // 时间轴节点：slideIndex -> 年份标签
+  var TL = [];
+  slides.forEach(function(sl, i){
+    var y = sl.getAttribute('data-tl');
+    if (y && y !== 'none') TL.push({ slide: i, year: y });
+  });
+
+  TL.forEach(function(item){
+    var n = document.createElement('div');
+    n.className = 'tl-node';
+    n.setAttribute('data-slide', item.slide);
+    n.innerHTML = '<span class="tl-dot"></span><span class="lab">' + item.year + '</span>';
+    n.addEventListener('click', function(){ goTo(item.slide); });
+    n.style.cursor = 'pointer';
+    tlNodes.appendChild(n);
+  });
+
+  var nodeEls = Array.prototype.slice.call(tlNodes.children);
+
+  /* =========================================================
+     3. 翻页逻辑
+     ========================================================= */
+  var current = 0;
+  var total   = slides.length;
+  var lock    = false;
+
+  var curNum = document.getElementById('curNum');
+  var totNum = document.getElementById('totNum');
+  totNum.textContent = String(total).padStart(2, '0');
+
+  // 初始化：读取 URL hash（如 #5）确定起始页，其余页置于左右两侧
+  var startIdx = 0;
+  var mHash = /^#(\d+)$/.exec(window.location.hash || '');
+  if (mHash){
+    var hn = parseInt(mHash[1], 10) - 1;
+    if (hn >= 0 && hn < total) startIdx = hn;
+  }
+  current = startIdx;
+
+  slides.forEach(function(sl, i){
+    sl.classList.remove('active', 'off-left', 'off-right');
+    if (i === startIdx) sl.classList.add('active');
+    else if (i < startIdx) sl.classList.add('off-left');
+    else sl.classList.add('off-right');
+  });
+
+  function pad2(n){ return String(n).padStart(2, '0'); }
+
+  function updateHUD(){
+    curNum.textContent = pad2(current + 1);
+
+    var onIdx = -1;
+    nodeEls.forEach(function(n, i){
+      var si = parseInt(n.getAttribute('data-slide'), 10);
+      n.classList.remove('on', 'past');
+      if (si === current){ onIdx = i; n.classList.add('on'); }
+      else if (si < current){ n.classList.add('past'); }
+    });
+
+    // 进度条填充
+    var fillIdx = onIdx;
+    if (fillIdx < 0){
+      // 封面 / 结尾页：取最近节点
+      for (var k = 0; k < nodeEls.length; k++){
+        if (parseInt(nodeEls[k].getAttribute('data-slide'), 10) < current) fillIdx = k;
+      }
+      if (current === 0) fillIdx = -1;
+    }
+    var denom = Math.max(1, nodeEls.length - 1);
+    var pct = fillIdx < 0 ? 0 : (fillIdx / denom) * 100;
+    tlFill.style.width = pct + '%';
+
+    // 时间轴显隐：封面/结尾淡化
+    var t = slides[current].getAttribute('data-tl');
+    if (t === 'none') timeline.classList.add('dim');
+    else timeline.classList.remove('dim');
+
+    // 结尾页隐藏导航右箭头（已在末页）
+    btnPrev.style.opacity = current === 0 ? '.32' : '1';
+    btnNext.style.opacity = current === total - 1 ? '.32' : '1';
+  }
+
+  function goTo(next){
+    if (lock) return;
+    if (next < 0 || next >= total || next === current) return;
+
+    var dir = next > current ? 1 : -1;
+    lock = true;
+
+    // 先把所有非目标页回归正确侧（避免重复点击时错位）
+    slides.forEach(function(sl, i){
+      if (i === next) return;
+      sl.classList.toggle('off-left',  i < next);
+      sl.classList.toggle('off-right', i > next);
+    });
+
+    // 目标页：移除 off 类 -> 从对应方向滑入
+    var nxt = slides[next];
+    nxt.classList.remove('off-left', 'off-right');
+    nxt.classList.add('active');
+
+    // 旧页淡出
+    var cur = slides[current];
+    cur.classList.remove('active');
+    cur.classList.toggle('off-left',  dir > 0);
+    cur.classList.toggle('off-right', dir < 0);
+
+    current = next;
+    updateHUD();
+
+    try { history.replaceState(null, '', '#' + (current + 1)); } catch (err) {}
+
+    window.setTimeout(function(){ lock = false; }, 640);
+  }
+
+  function nextSlide(){ goTo(current + 1); }
+  function prevSlide(){ goTo(current - 1); }
+
+  /* =========================================================
+     4. 交互：键盘 / 按钮 / 触摸 / 滚轮
+     ========================================================= */
+  window.addEventListener('keydown', function(e){
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ' || k === 'Spacebar'){
+      e.preventDefault(); nextSlide();
+    } else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp'){
+      e.preventDefault(); prevSlide();
+    } else if (k === 'Home'){ e.preventDefault(); goTo(0); }
+    else if (k === 'End'){ e.preventDefault(); goTo(total - 1); }
+  });
+
+  var btnPrev = document.getElementById('btnPrev');
+  var btnNext = document.getElementById('btnNext');
+  btnPrev.addEventListener('click', function(e){ e.stopPropagation(); prevSlide(); });
+  btnNext.addEventListener('click', function(e){ e.stopPropagation(); nextSlide(); });
+
+  // 触摸滑动
+  var tx0 = 0, ty0 = 0, tracking = false;
+  window.addEventListener('touchstart', function(e){
+    if (e.touches.length !== 1) return;
+    tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY; tracking = true;
+  }, {passive:true});
+  window.addEventListener('touchend', function(e){
+    if (!tracking) return;
+    tracking = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - tx0, dy = t.clientY - ty0;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)){
+      if (dx < 0) nextSlide(); else prevSlide();
+    }
+  }, {passive:true});
+
+  // 滚轮（节流）
+  var wheelLock = false;
+  window.addEventListener('wheel', function(e){
+    if (wheelLock) return;
+    if (Math.abs(e.deltaY) < 12 && Math.abs(e.deltaX) < 12) return;
+    wheelLock = true;
+    window.setTimeout(function(){ wheelLock = false; }, 780);
+    var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (d > 0) nextSlide(); else prevSlide();
+  }, {passive:true});
+
+  // 点击画面左右 1/4 区域翻页
+  stage.addEventListener('click', function(e){
+    if (e.target.closest && e.target.closest('#nav')) return;
+    if (e.target.closest && e.target.closest('#timeline')) return;
+    var r = stage.getBoundingClientRect();
+    var x = (e.clientX - r.left) / r.width;
+    if (x > .74) nextSlide();
+    else if (x < .26) prevSlide();
+  });
+
+  updateHUD();
+
+  // 移除启动保护，恢复过渡动画
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      document.documentElement.classList.remove('booting');
+    });
+  });
+
+  /* =========================================================
+     5. 背景粒子神经网络（纯 Canvas，无外部资源）
+     ========================================================= */
+  var cv  = document.getElementById('particles');
+  var ctx = cv.getContext('2d');
+  var W = BASE_W, H = BASE_H;
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width  = W * DPR;
+  cv.height = H * DPR;
+  ctx.scale(DPR, DPR);
+
+  var COUNT = 68;
+  var LINK  = 168;
+  var pts = [];
+  for (var i = 0; i < COUNT; i++){
+    pts.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - .5) * .26,
+      vy: (Math.random() - .5) * .26,
+      r: Math.random() * 1.5 + .7,
+      hue: Math.random() < .72 ? 0 : 1   // 0=cyan 1=violet
+    });
+  }
+
+  var mouse = { x: -999, y: -999 };
+  stage.addEventListener('mousemove', function(e){
+    var r = stage.getBoundingClientRect();
+    var sc = r.width / BASE_W;
+    mouse.x = (e.clientX - r.left) / sc;
+    mouse.y = (e.clientY - r.top) / sc;
+  });
+  stage.addEventListener('mouseleave', function(){ mouse.x = -999; mouse.y = -999; });
+
+  function frame(){
+    ctx.clearRect(0, 0, W, H);
+
+    for (var i = 0; i < COUNT; i++){
+      var p = pts[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -20) p.x = W + 20;
+      if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20;
+      if (p.y > H + 20) p.y = -20;
+    }
+
+    // 连线
+    for (var i = 0; i < COUNT; i++){
+      for (var j = i + 1; j < COUNT; j++){
+        var a = pts[i], b = pts[j];
+        var dx = a.x - b.x, dy = a.y - b.y;
+        var d2 = dx * dx + dy * dy;
+        if (d2 < LINK * LINK){
+          var d = Math.sqrt(d2);
+          var al = (1 - d / LINK) * .22;
+          ctx.strokeStyle = 'rgba(90,190,240,' + al.toFixed(3) + ')';
+          ctx.lineWidth = .7;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+
+    // 鼠标邻近高亮
+    for (var i = 0; i < COUNT; i++){
+      var p = pts[i];
+      var mdx = p.x - mouse.x, mdy = p.y - mouse.y;
+      var md2 = mdx * mdx + mdy * mdy;
+      if (md2 < 200 * 200){
+        var mal = (1 - Math.sqrt(md2) / 200) * .3;
+        ctx.strokeStyle = 'rgba(154,123,255,' + mal.toFixed(3) + ')';
+        ctx.lineWidth = .8;
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+      }
+    }
+
+    // 节点
+    for (var i = 0; i < COUNT; i++){
+      var p = pts[i];
+      var col = p.hue === 0 ? '38,217,242' : '154,123,255';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + col + ',.62)';
+      ctx.shadowColor = 'rgba(' + col + ',.9)';
+      ctx.shadowBlur = 8;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  // 暴露给外部（便于调试）
+  window.__deck = { goTo: goTo, next: nextSlide, prev: prevSlide, get index(){ return current; } };
+})();
+</script>
+</body>
+</html>
